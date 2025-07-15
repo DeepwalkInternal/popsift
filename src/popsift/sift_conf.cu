@@ -50,52 +50,52 @@ Config::Config( )
     POP_CUDA_FATAL_TEST( err, "Could not get current device properties" );
 }
 
-void Config::setMode( Config::SiftMode m )
+void Config::setSiftMode( Config::SiftMode mode )
 {
-    _sift_mode = m;
+    _sift_mode = mode;
 }
 
-void Config::setGaussMode( Config::GaussMode m )
+void Config::setGaussMode( Config::GaussMode mode )
 {
-    _gauss_mode = m;
+    _gauss_mode = mode;
 }
 
-void Config::setDescMode( const std::string& text )
+void Config::setDescMode( const std::string& mode )
 {
-    if( text == "loop" )
+    if( mode == "loop" )
         setDescMode( Config::Loop );
-    else if( text == "iloop" )
+    else if( mode == "iloop" )
         setDescMode( Config::ILoop );
-    else if( text == "grid" )
+    else if( mode == "grid" )
         setDescMode( Config::Grid );
-    else if( text == "igrid" )
+    else if( mode == "igrid" )
         setDescMode( Config::IGrid );
-    else if( text == "notile" )
+    else if( mode == "notile" )
         setDescMode( Config::NoTile );
     else
         POP_FATAL( "specified descriptor extraction mode must be one of loop, grid or igrid" );
 }
 
-void Config::setDescMode( Config::DescMode m )
+void Config::setDescMode( Config::DescMode mode )
 {
-    _desc_mode = m;
+    _desc_mode = mode;
 }
 
-void Config::setGaussMode( const std::string& m )
+void Config::setGaussMode( const std::string& mode )
 {
-    if( m == "vlfeat" )
+    if( mode == "vlfeat" )
         setGaussMode( Config::VLFeat_Compute );
-    else if( m == "vlfeat-hw-interpolated" )
+    else if( mode == "vlfeat-hw-interpolated" )
         setGaussMode( Config::VLFeat_Relative );
-    else if( m == "relative" )
+    else if( mode == "relative" )
         setGaussMode( Config::VLFeat_Relative );
-    else if( m == "vlfeat-direct" )
+    else if( mode == "vlfeat-direct" )
         setGaussMode( Config::VLFeat_Relative_All );
-    else if( m == "opencv" )
+    else if( mode == "opencv" )
         setGaussMode( Config::OpenCV_Compute );
-    else if( m == "fixed9" )
+    else if( mode == "fixed9" )
         setGaussMode( Config::Fixed9 );
-    else if( m == "fixed15" )
+    else if( mode == "fixed15" )
         setGaussMode( Config::Fixed15 );
     else
         POP_FATAL( string("Bad Gauss mode.\n") + getGaussModeUsage() );

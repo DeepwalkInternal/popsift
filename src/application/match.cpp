@@ -75,15 +75,15 @@ static void parseargs(int argc, char** argv, popsift::Config& config, string& lF
         "loop, iloop, grid, igrid, notile\n"
 	"Default is loop\n"
         "loop is OpenCV-like horizontal scanning, computing only valid points, grid extracts only useful points but rounds them, iloop uses linear texture and rotated gradiant fetching. igrid is grid with linear interpolation. notile is like igrid but avoids redundant gradiant fetching.")
-        ("popsift-mode", bool_switch()->notifier([&](bool b) { if(b) config.setMode(popsift::Config::PopSift); }),
+        ("popsift-mode", bool_switch()->notifier([&](bool b) { if(b) config.setSiftMode(popsift::Config::PopSift); }),
         "During the initial upscale, shift pixels by 1. In extrema refinement, steps up to 0.6, do not reject points when reaching max iterations, "
         "first contrast threshold is .8 * peak thresh. Shift feature coords octave 0 back to original pos.")
-        ("vlfeat-mode", bool_switch()->notifier([&](bool b) { if(b) config.setMode(popsift::Config::VLFeat); }),
+        ("vlfeat-mode", bool_switch()->notifier([&](bool b) { if(b) config.setSiftMode(popsift::Config::VLFeat); }),
         "During the initial upscale, shift pixels by 1. That creates a sharper upscaled image. "
         "In extrema refinement, steps up to 0.6, levels remain unchanged, "
         "do not reject points when reaching max iterations, "
         "first contrast threshold is .8 * peak thresh.")
-        ("opencv-mode", bool_switch()->notifier([&](bool b) { if(b) config.setMode(popsift::Config::OpenCV); }),
+        ("opencv-mode", bool_switch()->notifier([&](bool b) { if(b) config.setSiftMode(popsift::Config::OpenCV); }),
         "During the initial upscale, shift pixels by 0.5. "
         "In extrema refinement, steps up to 0.5, "
         "reject points when reaching max iterations, "

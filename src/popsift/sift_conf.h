@@ -137,43 +137,50 @@ struct Config
 
     /**
      * @brief Set the Gaussian mode from string.
-     * @param[in] m The string version of the GaussMode
+     * @param[in] mode The string version of the GaussMode
      * @see GaussMode
      */
-    void setGaussMode( const std::string& m );
+    void setGaussMode( const std::string& mode );
     /**
      * @brief Set the Gaussian mode.
-     * @param[in] m The Gaussian mode to use.
+     * @param[in] mode The Gaussian mode to use.
+     * @see GaussMode
      */
-    void setGaussMode( GaussMode m );
+    void setGaussMode( GaussMode mode );
 
     /**
-     * @brief Set the Sift mode.
-     * @param[in] m The Sift mode
+     * @brief Set the SIFT mode.
+     * @param[in] mode The SIFT mode
      * @see SiftMode
      */
-    void setMode( SiftMode m );
+    void setSiftMode( SiftMode mode );
 
     /**
      * @brief Set the log mode.
-     * @param mode The log mode.
+     * @param[in] mode The log mode.
      * @see LogMode
      */
     void setLogMode( LogMode mode = All );
+    
+    /**
+     * @brief Set the scaling mode.
+     * @param[in] mode The scaling mode.
+     * @see ScalingMode
+     */
     void setScalingMode( ScalingMode mode = ScaleDefault );
 
     /**
-     * @brief Enable/desable verbose mode.
-     * @param[in] on Whether to display additional information .
+     * @brief Enable/disable verbose mode.
+     * @param[in] enabled Whether to display additional information.
      */
-    void setVerbose( bool on = true );
+    void setVerbose( bool enabled = true );
 
     /**
      * @brief Set the descriptor mode by string.
-     * @param[in] byname The string containing the descriptor mode.
+     * @param[in] mode The string containing the descriptor mode.
      * @see DescMode
      */
-    void setDescMode( const std::string& byname );
+    void setDescMode( const std::string& mode );
 
     /**
     * @brief Set the descriptor mode.
@@ -185,20 +192,20 @@ struct Config
 //    void setGaussGroup( int groupsize );
 //    int  getGaussGroup( ) const;
 
-    void setDownsampling( float v );
-    void setOctaves( int v );
-    void setLevels( int v );
-    void setSigma( float v );
-    void setEdgeLimit( float v );
-    void setThreshold( float v );
+    void setDownsampling( float factor );
+    void setOctaves( int octaves );
+    void setLevels( int levels );
+    void setSigma( float sigma );
+    void setEdgeLimit( float limit );
+    void setThreshold( float threshold );
     void setInitialBlur( float blur );
 //    void setMaxExtreme( int m );
     void setPrintGaussTables( );
 //    void setDPOrientation( bool on );
     void setFilterMaxExtrema( int extrema );
-    void setFilterGridSize( int sz );
+    void setFilterGridSize( int size );
     void setFilterSorting( const std::string& direction );
-    void setFilterSorting( GridFilterMode m );
+    void setFilterSorting( GridFilterMode mode );
 
     bool  hasInitialBlur( ) const;
     float getInitialBlur( ) const;
@@ -229,10 +236,10 @@ struct Config
      * @return The SiftMode
      * @see SiftMode
      */
-    SiftMode getSiftMode() const;
+    SiftMode getSiftMode( ) const;
 
     /// find out if we should print logging info or not
-    LogMode getLogMode() const;
+    LogMode getLogMode( ) const;
 
     /// The number of octaves is chosen freely. If not specified,
     /// it is: log_2( min(x,y) ) - 3 - start_sampling
