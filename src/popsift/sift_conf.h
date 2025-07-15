@@ -7,6 +7,7 @@
  */
 #pragma once
 
+#include <stdexcept>
 #include <string>
 
 #define MAX_OCTAVES   20
@@ -24,8 +25,31 @@
 namespace popsift {
 
 /**
- * @brief Struct containing the parameters that control the extraction algorithm
+ * @brief Exception thrown when an invalid configuration parameter is provided
  */
+class ConfigError : public std::invalid_argument {
+public:
+    explicit ConfigError(const std::string& message) : std::invalid_argument(message) {}
+};
+
+/**
+ * @brief Exception thrown when an invalid enum value is provided
+ */
+class InvalidEnumError : public ConfigError {
+public:
+    explicit InvalidEnumError(const std::string& enum_name, const std::string& value, const std::string& valid_options)
+        : ConfigError("Invalid " + enum_name + " value: '" + value + "'. Valid options are: " + valid_options) {}
+};
+
+/**
+ * @brief Exception thrown when a parameter is out of valid range
+ */
+class ParameterRangeError : public ConfigError {
+public:
+    explicit ParameterRangeError(const std::string& param_name, const std::string& value, const std::string& valid_range)
+        : ConfigError("Parameter '" + param_name + "' value '" + value + "' is out of valid range: " + valid_range) {}
+};
+
 struct Config
 {
     Config();

@@ -73,7 +73,7 @@ void Config::setDescMode( const std::string& mode )
     else if( mode == "notile" )
         setDescMode( Config::NoTile );
     else
-        POP_FATAL( "specified descriptor extraction mode must be one of loop, grid or igrid" );
+        throw InvalidEnumError("descriptor mode", mode, "loop, iloop, grid, igrid, notile");
 }
 
 void Config::setDescMode( Config::DescMode mode )
@@ -98,7 +98,7 @@ void Config::setGaussMode( const std::string& mode )
     else if( mode == "fixed15" )
         setGaussMode( Config::Fixed15 );
     else
-        POP_FATAL( string("Bad Gauss mode.\n") + getGaussModeUsage() );
+        throw InvalidEnumError("Gauss mode", mode, getGaussModeUsage());
 }
 
 Config::GaussMode Config::getGaussModeDefault( )
@@ -138,7 +138,7 @@ void Config::setFilterSorting( const std::string& text )
     else if( text == "random" )
         _grid_filter_mode = Config::RandomScale;
     else
-        POP_FATAL( "filter sorting mode must be one of up, down or random" );
+        throw InvalidEnumError("filter sorting mode", text, "up, down, random");
 }
 
 void Config::setFilterSorting( Config::GridFilterMode m )
@@ -204,7 +204,7 @@ void Config::setNormMode( const std::string& m )
     if( m == "RootSift" ) setNormMode( Config::RootSift );
     else if( m == "classic" ) setNormMode( Config::Classic );
     else
-        POP_FATAL( string("Bad Normalization mode.\n") + getGaussModeUsage() );
+        throw InvalidEnumError("normalization mode", m, getNormModeUsage());
 }
 
 Config::NormMode Config::getNormModeDefault( )
@@ -238,14 +238,57 @@ int Config::getNormalizationMultiplier( ) const
 }
 
 void Config::setDownsampling( float v ) { _upscale_factor = -v; }
-void Config::setOctaves( int v ) { octaves = v; }
-void Config::setLevels( int v ) { levels = v; }
-void Config::setSigma( float v ) { sigma = v; }
-void Config::setEdgeLimit( float v ) { _edge_limit = v; }
-void Config::setThreshold( float v ) { _threshold = v; }
+
+void Config::setOctaves( int v ) { 
+    if (v < -1) {
+        throw ParameterRangeError("octaves", std::to_string(v), ">= -1 (use -1 for auto)");
+    }
+    octaves = v; 
+}
+
+void Config::setLevels( int v ) { 
+    if (v < 1 || v > 10) {
+        throw ParameterRangeError("levels", std::to_string(v), "1-10");
+    }
+    levels = v; 
+}
+
+void Config::setSigma( float v ) { 
+    if (v <= 0.0f || v > 10.0f) {
+        throw ParameterRangeError("sigma", std::to_string(v), "> 0.0 and <= 10.0");
+    }
+    sigma = v; 
+}
+
+void Config::setEdgeLimit( float v ) { 
+    if (v < 0.0f) {
+        throw ParameterRangeError("edge_limit", std::to_string(v), ">= 0.0");
+    }
+    _edge_limit = v; 
+}
+
+void Config::setThreshold( float v ) { 
+    if (v < 0.0f) {
+        throw ParameterRangeError("threshold", std::to_string(v), ">= 0.0");
+    }
+    _threshold = v; 
+}
+
 void Config::setPrintGaussTables() { _print_gauss_tables = true; }
-void Config::setFilterMaxExtrema( int ext ) { _filter_max_extrema = ext; }
-void Config::setFilterGridSize( int sz ) { _filter_grid_size = sz; }
+
+void Config::setFilterMaxExtrema( int ext ) { 
+    if (ext < -1) {
+        throw ParameterRangeError("filter_max_extrema", std::to_string(ext), ">= -1 (use -1 for auto)");
+    }
+    _filter_max_extrema = ext; 
+}
+
+void Config::setFilterGridSize( int sz ) { 
+    if (sz < 1 || sz > 10) {
+        throw ParameterRangeError("filter_grid_size", std::to_string(sz), "1-10");
+    }
+    _filter_grid_size = sz; 
+}
 
 void Config::setInitialBlur( float blur )
 {
