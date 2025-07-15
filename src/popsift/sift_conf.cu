@@ -189,6 +189,11 @@ Config::NormMode Config::getNormMode( NormMode m ) const
     return _normalization_mode;
 }
 
+Config::NormMode Config::getNormMode( ) const 
+{
+    return _normalization_mode;
+}
+
 void Config::setNormMode( Config::NormMode m )
 {
     _normalization_mode = m;

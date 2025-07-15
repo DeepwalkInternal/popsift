@@ -265,7 +265,20 @@ struct Config
      */
     DEPRECATED(void    setUseRootSift( bool on ));
     bool               getUseRootSift( ) const;
-    NormMode           getNormMode( NormMode m ) const;
+    /**
+     * @brief Get the current normalization mode.
+     * @return The current normalization mode.
+     * @see NormMode
+     */
+    NormMode           getNormMode( ) const;
+    /**
+     * @brief Get the normalization mode (deprecated - parameter is ignored).
+     * @param[in] m This parameter is ignored and will be removed in a future version.
+     * @return The current normalization mode.
+     * @deprecated Use getNormMode() instead.
+     * @see NormMode
+     */
+    DEPRECATED(NormMode getNormMode( NormMode m ) const);
     static NormMode    getNormModeDefault( ); // Call this from the constructor.
     static const char* getNormModeUsage( );  // Helper functions for the main program's usage string.
 
