@@ -13,6 +13,7 @@
 #include "sift_config.h"
 #include "sift_pyramid.h"
 #include "common/debug_macros.h"
+#include "sift_conf.h"
 
 #include <cmath>
 #include <cstring>
@@ -247,9 +248,8 @@ SiftJob* PopSift::enqueue( int                  w,
     if( _image_mode != ByteImages )
     {
         stringstream ss;
-        ss << "Image mode error" << endl
-           << "E    Cannot load byte images into a PopSift pipeline configured for float images";
-        POP_FATAL(ss.str());
+        ss << "Cannot load byte images into a PopSift pipeline configured for float images";
+        throw popsift::ImageError(ss.str());
     }
 
     AllocTest a = testTextureFit( w, h );
@@ -272,9 +272,8 @@ SiftJob* PopSift::enqueue( int          w,
     if( _image_mode != FloatImages )
     {
         stringstream ss;
-        ss << "Image mode error" << endl
-           << "E    Cannot load float images into a PopSift pipeline configured for byte images";
-        POP_FATAL(ss.str());
+        ss << "Cannot load float images into a PopSift pipeline configured for byte images";
+        throw popsift::ImageError(ss.str());
     }
 
     AllocTest a = testTextureFit( w, h );
@@ -397,9 +396,8 @@ SiftJob::SiftJob( int w, int h, const unsigned char* imageData )
     else
     {
         stringstream ss;
-        ss << "Memory limitation" << endl
-           << "E    Failed to allocate memory for SiftJob";
-        POP_FATAL(ss.str());
+        ss << "Failed to allocate memory for SiftJob (byte image data)";
+        throw popsift::MemoryError(ss.str());
     }
 }
 
@@ -418,9 +416,8 @@ SiftJob::SiftJob( int w, int h, const float* imageData )
     else
     {
         stringstream ss;
-        ss << "Memory limitation" << endl
-           << "E    Failed to allocate memory for SiftJob";
-        POP_FATAL(ss.str());
+        ss << "Failed to allocate memory for SiftJob (float image data)";
+        throw popsift::MemoryError(ss.str());
     }
 }
 

@@ -14,6 +14,7 @@
 #include "s_pyramid_build_ra.h"
 #include "sift_constants.h"
 #include "sift_pyramid.h"
+#include "sift_conf.h"
 
 #include <cstdio>
 #include <iostream>
@@ -130,7 +131,7 @@ inline void Pyramid::horiz_level_from_input_image( const Config& conf, ImageBase
 {
     if( octave != 0 )
     {
-        POP_FATAL( "Unsupported parameter octave != 0" );
+        throw popsift::UnsupportedOperationError("Unsupported parameter octave != 0 in horiz_level_from_input_image");
     }
 
     Octave&   oct_obj = _octaves[octave];
@@ -168,7 +169,7 @@ inline void Pyramid::horiz_all_from_input_image( const Config& conf, ImageBase* 
 {
     if( octave != 0 )
     {
-        POP_FATAL( "Unsupported parameter octave != 0" );
+        throw popsift::UnsupportedOperationError("Unsupported parameter octave != 0 in horiz_all_from_input_image");
     }
 
     Octave&      oct_obj = _octaves[octave];
@@ -288,10 +289,10 @@ inline void Pyramid::horiz_from_prev_level( int octave, int level, cudaStream_t 
         break;
     case Interpolated_FromFirst :
     case NotInterpolated_FromFirst :
-        POP_FATAL( "Case horizontal Gauss filtering from first level makes not sense in case horizontal Gauss filter from previous level" );
+        throw popsift::LogicError("Case horizontal Gauss filtering from first level makes not sense in case horizontal Gauss filter from previous level");
         break;
     default :
-        POP_FATAL( "Missing case in horizontal Gauss filter from previous level" );
+        throw popsift::LogicError("Missing case in horizontal Gauss filter from previous level");
         break;
     }
     POP_SYNC_CHK;
@@ -368,7 +369,7 @@ inline void Pyramid::vert_from_interm( int octave, int level, cudaStream_t strea
         break;
     default :
         {
-            POP_FATAL( "Missing case in vertical Gauss filter from intermediate buffer" );
+            throw popsift::LogicError("Missing case in vertical Gauss filter from intermediate buffer");
         }
         break;
     }
@@ -420,10 +421,10 @@ inline void Pyramid::vert_all_from_interm( int octave, int start_level, int max_
         break;
     case Interpolated_FromPrevious :
     case NotInterpolated_FromPrevious :
-        POP_FATAL( "Case horizontal Gauss filtering from intermediate level makes not sense in case vertial-all Gauss filter from previous level" );
+        throw popsift::LogicError("Case horizontal Gauss filtering from intermediate level makes not sense in case vertial-all Gauss filter from previous level");
         break;
     default :
-        POP_FATAL( "Missing case in vertical-all Gauss filter from intermediate buffer" );
+        throw popsift::LogicError("Missing case in vertical-all Gauss filter from intermediate buffer");
         break;
     }
     POP_SYNC_CHK;

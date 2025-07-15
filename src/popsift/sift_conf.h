@@ -50,6 +50,46 @@ public:
         : ConfigError("Parameter '" + param_name + "' value '" + value + "' is out of valid range: " + valid_range) {}
 };
 
+/**
+ * @brief Exception thrown for memory allocation failures
+ */
+class MemoryError : public std::runtime_error {
+public:
+    explicit MemoryError(const std::string& message) : std::runtime_error("Memory error: " + message) {}
+};
+
+/**
+ * @brief Exception thrown for CUDA-related errors
+ */
+class CudaError : public std::runtime_error {
+public:
+    explicit CudaError(const std::string& message) : std::runtime_error("CUDA error: " + message) {}
+};
+
+/**
+ * @brief Exception thrown for image processing errors
+ */
+class ImageError : public std::runtime_error {
+public:
+    explicit ImageError(const std::string& message) : std::runtime_error("Image error: " + message) {}
+};
+
+/**
+ * @brief Exception thrown for unsupported operations
+ */
+class UnsupportedOperationError : public std::runtime_error {
+public:
+    explicit UnsupportedOperationError(const std::string& message) : std::runtime_error("Unsupported operation: " + message) {}
+};
+
+/**
+ * @brief Exception thrown for internal logic errors
+ */
+class LogicError : public std::runtime_error {
+public:
+    explicit LogicError(const std::string& message) : std::runtime_error("Logic error: " + message) {}
+};
+
 struct Config
 {
     Config();

@@ -17,6 +17,7 @@
 #include <stdexcept>
 
 #include "debug_macros.h"
+#include "../sift_conf.h"
 
 #define PLANE2D_CUDA_OP_DEBUG
 
@@ -410,15 +411,15 @@ inline void Plane2D<T>::memcpyToDevice( Plane2D<T>& devPlane, cudaStream_t strea
 {
     if( devPlane._cols != this->_cols ) {
         std::stringstream ss;
-        ss << "Error: source columns (" << this->_cols << ") and dest columns (" << devPlane._cols
+        ss << "Source columns (" << this->_cols << ") and dest columns (" << devPlane._cols
            << ") must be identical";
-        POP_FATAL(ss.str());
+        throw popsift::LogicError(ss.str());
     }
     if( devPlane._rows != this->_rows ) {
         std::stringstream ss;
-        ss << "Error: source rows (" << this->_rows << ") and dest rows (" << devPlane._rows
+        ss << "Source rows (" << this->_rows << ") and dest rows (" << devPlane._rows
            << ") must be identical";
-        POP_FATAL(ss.str());
+        throw popsift::LogicError(ss.str());
     }
     PitchPlane2D<T>::memcpyToDevice( devPlane, this->_cols, this->_rows, stream );
 }

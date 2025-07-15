@@ -9,6 +9,7 @@
 #include "common/debug_macros.h"
 #include "features.h"
 #include "sift_extremum.h"
+#include "sift_conf.h"
 
 #include <math_constants.h>
 
@@ -63,20 +64,18 @@ void FeaturesHost::reset( int num_ext, int num_ori )
     _ext = (Feature*)memalign( getPageSize(), num_ext * sizeof(Feature) );
     if( _ext == nullptr ) {
         std::stringstream ss;
-        ss << "Runtime error:" << endl
-           << "    Failed to (re)allocate memory for downloading " << num_ext << " features" << endl;
-        if(errno == EINVAL) ss << "    Alignment is not a power of two.";
-        if(errno == ENOMEM) ss << "    Not enough memory.";
-        POP_FATAL(ss.str());
+        ss << "Failed to (re)allocate memory for downloading " << num_ext << " features";
+        if(errno == EINVAL) ss << " - alignment is not a power of two";
+        if(errno == ENOMEM) ss << " - not enough memory";
+        throw popsift::MemoryError(ss.str());
     }
     _ori = (Descriptor*)memalign( getPageSize(), num_ori * sizeof(Descriptor) );
     if(_ori == nullptr) {
         std::stringstream ss;
-        ss << "Runtime error:" << endl
-           << "    Failed to (re)allocate memory for downloading " << num_ori << " descriptors" << endl;
-        if(errno == EINVAL) ss << "    Alignment is not a power of two.";
-        if(errno == ENOMEM) ss << "    Not enough memory.";
-        POP_FATAL(ss.str());
+        ss << "Failed to (re)allocate memory for downloading " << num_ori << " descriptors";
+        if(errno == EINVAL) ss << " - alignment is not a power of two";
+        if(errno == ENOMEM) ss << " - not enough memory";
+        throw popsift::MemoryError(ss.str());
     }
 
     setFeatureCount( num_ext );

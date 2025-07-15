@@ -17,6 +17,7 @@
 #include "sift_config.h"
 #include "sift_constants.h"
 #include "sift_pyramid.h"
+#include "sift_conf.h"
 
 #include <cstdio>
 #include <iostream>
@@ -78,7 +79,7 @@ void Pyramid::descriptors( const Config& conf )
             } else if( conf.getDescMode() == Config::NoTile ) {
                 start_ext_desc_notile( octave, oct_obj );
             } else {
-                POP_FATAL( "not yet" );
+                throw popsift::UnsupportedOperationError("Descriptor mode not yet implemented");
             }
             cuda::event_record( oct_obj.getEventDescDone(), oct_obj.getStream(), __FILE__, __LINE__ );
             cuda::event_wait(   oct_obj.getEventDescDone(), _download_stream,    __FILE__, __LINE__ );

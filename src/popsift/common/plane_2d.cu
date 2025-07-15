@@ -9,6 +9,7 @@
 #include "assist.h"
 #include "debug_macros.h"
 #include "plane_2d.h"
+#include "../sift_conf.h"
 
 #include <cuda_runtime.h>
 
@@ -67,9 +68,8 @@ void* PlaneBase::allocHost2D( int w, int h, int elemSize, PlaneMapMode m )
         const char *buf = strerror(errno);
 #endif
         stringstream ss;
-        ss << "Failed to allocate " << sz << " bytes of unaligned host memory." << endl
-           << "Cause: " << buf;
-        POP_FATAL(ss.str());
+        ss << "Failed to allocate " << sz << " bytes of unaligned host memory. Cause: " << buf;
+        throw popsift::MemoryError(ss.str());
     } else if(m == PageAligned) {
         void* ptr = memalign(getPageSize(), sz);
         if(ptr)
@@ -94,7 +94,7 @@ void* PlaneBase::allocHost2D( int w, int h, int elemSize, PlaneMapMode m )
         POP_CUDA_FATAL_TEST( err, "Failed to allocate aligned and pinned host memory: " );
         return ptr;
     } else {
-        POP_FATAL("Alignment not correctly specified in host plane allocation");
+        throw popsift::LogicError("Alignment not correctly specified in host plane allocation");
     }
 }
 

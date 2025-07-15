@@ -11,6 +11,7 @@
 #include "common/debug_macros.h"
 #include "common/assist.h"
 #include "common/clamp.h"
+#include "sift_conf.h"
 
 #include <iostream>
 #include <cstdio>
@@ -280,10 +281,10 @@ void Pyramid::make_octave( const Config& conf, ImageBase* base, Octave& oct_obj,
             else
                 make_octave_sub<7,false,6>( conf, base, oct_obj, stream );
         } else {
-            POP_FATAL("Unsupported Gauss filter mode for making all octaves at once");
+            throw popsift::UnsupportedOperationError("Unsupported Gauss filter mode for making all octaves at once");
         }
     } else {
-        POP_FATAL("Unsupported number of levels for making all octaves at once");
+        throw popsift::UnsupportedOperationError("Unsupported number of levels for making all octaves at once");
     }
 }
 

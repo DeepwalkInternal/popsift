@@ -7,6 +7,7 @@
  */
 #include "common/debug_macros.h"
 #include "gauss_filter.h"
+#include "sift_conf.h"
 
 #include <algorithm>
 #include <cstdio>
@@ -131,16 +132,14 @@ void init_filter( const Config& conf,
     if( sigma0 > 2.0 )
     {
         stringstream ss;
-        ss << "ERROR: "
-           << " Sigma > 2.0 is not supported. Re-size __constant__ array and recompile.";
-        POP_FATAL(ss.str());
+        ss << "Sigma > 2.0 is not supported. Re-size __constant__ array and recompile.";
+        throw popsift::ParameterRangeError("sigma0", std::to_string(sigma0), "0.0 to 2.0");
     }
     if( levels > GAUSS_LEVELS )
     {
         stringstream ss;
-        ss << "ERROR: "
-           << " More than " << GAUSS_LEVELS << " levels not supported. Re-size __constant__ array and recompile.";
-        POP_FATAL(ss.str());
+        ss << "More than " << GAUSS_LEVELS << " levels not supported. Re-size __constant__ array and recompile.";
+        throw popsift::ParameterRangeError("levels", std::to_string(levels), "1 to " + std::to_string(GAUSS_LEVELS));
     }
 
     if( conf.ifPrintGaussTables() ) {
@@ -292,8 +291,8 @@ int GaussInfo::getSpan( float sigma ) const
         return 8;
     default :
         stringstream ss;
-        ss << "ERROR: The mode for computing Gauss filter scan is invalid";
-        POP_FATAL(ss.str());
+        ss << "The mode for computing Gauss filter scan is invalid";
+        throw popsift::InvalidEnumError("GaussMode", std::to_string(static_cast<int>(_span_mode)), "VLFeat_Relative_All, VLFeat_Compute, VLFeat_Relative, OpenCV_Compute, Fixed9, Fixed15");
     }
 }
 

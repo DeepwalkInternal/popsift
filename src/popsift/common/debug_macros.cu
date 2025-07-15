@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 #include "debug_macros.h"
+#include "../sift_conf.h"
 
 #include <cassert>
 
@@ -66,7 +67,7 @@ void memcpy_async( void* dst, const void* src, size_t sz,
         ss << cudaGetErrorString(err) << endl;
         ss << "    src ptr=" << hex << (size_t)src << dec << endl
            << "    dst ptr=" << hex << (size_t)dst << dec << endl;
-        POP_FATAL(ss.str());
+        throw popsift::CudaError(ss.str());
     }
 }
 
@@ -84,7 +85,7 @@ void memcpy_sync( void* dst, const void* src, size_t sz, cudaMemcpyKind type, co
         ss << cudaGetErrorString(err) << endl;
         ss << "    src ptr=" << hex << (size_t)src << dec << endl
            << "    dst ptr=" << hex << (size_t)dst << dec << endl;
-        POP_FATAL(ss.str())
+        throw popsift::CudaError(ss.str());
     }
 }
 
