@@ -66,7 +66,8 @@ PopSift::PopSift( ImageMode imode, int device )
     }
 
     _pipe._thread_stage1.reset( new std::thread( &PopSift::uploadImages, this ));
-    _pipe._thread_stage2.reset( new std::thread( &PopSift::extractDownloadLoop, this ));
+    // Always use MatchingMode: launch matchPrepareLoop
+    _pipe._thread_stage2.reset( new std::thread( &PopSift::matchPrepareLoop, this ));
 }
 
 PopSift::~PopSift()
