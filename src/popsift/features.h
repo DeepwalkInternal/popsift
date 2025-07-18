@@ -114,8 +114,6 @@ public:
 
     void reset( int num_ext, int num_ori );
 
-    void match( FeaturesDev* other );
-
     inline Feature*    getFeatures()    { return _ext; }
     inline Descriptor* getDescriptors() { return _ori; }
     inline int*        getReverseMap()  { return _rev; }
