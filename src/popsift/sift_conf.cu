@@ -8,7 +8,6 @@
 #include "common/debug_macros.h"
 #include "sift_conf.h"
 
-#include <iostream>
 
 using namespace std;
 
@@ -166,28 +165,6 @@ void Config::setScalingMode( ScalingMode mode )
     _scaling_mode = mode;
 }
 
-/**
- * Normalization mode
- * Should the descriptor normalization use L2-like classic normalization
- * of the typically better L1-like RootSift normalization?
- */
-void Config::setUseRootSift( bool on )
-{
-    if( on )
-        _normalization_mode = RootSift;
-    else
-        _normalization_mode = Classic;
-}
-
-bool Config::getUseRootSift( ) const
-{
-    return ( _normalization_mode == RootSift );
-}
-
-Config::NormMode Config::getNormMode( NormMode m ) const 
-{
-    return _normalization_mode;
-}
 
 Config::NormMode Config::getNormMode( ) const 
 {
@@ -237,7 +214,7 @@ int Config::getNormalizationMultiplier( ) const
     return _normalization_multiplier;
 }
 
-void Config::setDownsampling( float v ) { _upscale_factor = -v; }
+void Config::setUpscaleFactor( float v ) { _upscale_factor = v; }
 
 void Config::setOctaves( int v ) { 
     if (v < -1) {

@@ -99,7 +99,7 @@ void Pyramid::descriptors( const Config& conf )
     block.y = 32;
     block.z = 1;
 
-    if( conf.getUseRootSift() ) {
+    if( conf.getNormMode() == Config::RootSift ) {
         normalize_histogram<NormalizeRootSift> <<<grid,block,0,_download_stream>>> ( );
         POP_SYNC_CHK;
     } else {

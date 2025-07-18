@@ -256,7 +256,7 @@ struct Config
 //    void setGaussGroup( int groupsize );
 //    int  getGaussGroup( ) const;
 
-    void setDownsampling( float factor );
+    void setUpscaleFactor( float factor );
     void setOctaves( int octaves );
     void setLevels( int levels );
     void setSigma( float sigma );
@@ -329,14 +329,6 @@ struct Config
     void               setNormMode( NormMode m );
     void               setNormMode( const std::string& m );
     /**
-     * @brief Set the normalization mode.
-     * @param[in] on Use RootSift (\p true) or the L2-norm (\p false).
-     * @deprecated
-     * @see NormMode
-     */
-    DEPRECATED(void    setUseRootSift( bool on ));
-    bool               getUseRootSift( ) const;
-    /**
      * @brief Get the current normalization mode.
      * @return The current normalization mode.
      * @see NormMode
@@ -346,10 +338,8 @@ struct Config
      * @brief Get the normalization mode (deprecated - parameter is ignored).
      * @param[in] m This parameter is ignored and will be removed in a future version.
      * @return The current normalization mode.
-     * @deprecated Use getNormMode() instead.
      * @see NormMode
      */
-    DEPRECATED(NormMode getNormMode( NormMode m ) const);
     static NormMode    getNormModeDefault( ); // Call this from the constructor.
     static const char* getNormModeUsage( );  // Helper functions for the main program's usage string.
 
@@ -365,6 +355,26 @@ struct Config
      */
     inline float getUpscaleFactor( ) const {
         return _upscale_factor;
+    }
+
+    inline float getThreshold( ) const {
+        return _threshold;
+    }
+
+    inline int getOctaves( ) const {
+        return octaves;
+    }
+
+    inline int getLevels( ) const {
+        return levels;
+    }
+
+    inline float getSigma( ) const {
+        return sigma;
+    }
+
+    inline float getEdgeLimit( ) const {
+        return _edge_limit;
     }
 
     int getMaxExtrema( ) const {
