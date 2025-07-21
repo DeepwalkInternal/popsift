@@ -77,7 +77,8 @@ set(CMAKE_CUDA_SEPARABLE_COMPILATION ON)
 
 # FIXED: Use the modern `per-thread` default stream. The old `legacy` is removed in CUDA 12+.
 # NOTE: This may require code changes in your kernels to ensure correct synchronization.
-add_compile_options($<$<COMPILE_LANGUAGE:CUDA>:--default-stream;per-thread>)
+add_compile_options($<$<COMPILE_LANGUAGE:CUDA>:-Xcompiler=-fPIC>)
+add_compile_options($<$<COMPILE_LANGUAGE:CUDA>:--default-stream=per-thread>)
 
 # Add warnings for memory usage if enabled
 if(PopSift_NVCC_WARNINGS AND CMAKE_CUDA_COMPILER_VERSION VERSION_GREATER_EQUAL "7.5")
