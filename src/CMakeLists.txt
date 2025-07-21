@@ -43,13 +43,12 @@ add_library(popsift
 
 target_link_libraries(popsift
                       PUBLIC
-		      CUDA::cudart
 		      Threads::Threads)
 
 if(PopSift_USE_NVTX_PROFILING)
 target_link_libraries(popsift
                       PUBLIC
-		      CUDA::nvtx3)
+		      nvtx3)
 endif()
 
 set_target_properties(popsift PROPERTIES VERSION ${PROJECT_VERSION})

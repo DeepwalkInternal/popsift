@@ -6,12 +6,12 @@ cmake_minimum_required(VERSION 3.24)
 # "all" and "all-major" work for Intel and perhaps for ARM with discrete GPUs, but not Tegra and Jetson.
 if(EXISTS "/etc/nv_tegra_release")
   # The CC list for Tegras and Jetson will require manual updates
-  set(CMAKE_CUDA_ARCHITECTURES "53;62;72;87"
+  set(CMAKE_CUDA_ARCHITECTURES "75;80;86;89"
       CACHE
       STRING "Which CUDA CCs to support: native, all, all-major or an explicit list delimited by semicolons")
 else()
   # The CC list for discrete GPUs will require CMake updates
-  set(CMAKE_CUDA_ARCHITECTURES "all-major"
+  set(CMAKE_CUDA_ARCHITECTURES "native"
       CACHE
       STRING "Which CUDA CCs to support: native, all, all-major or an explicit list delimited by semicolons")
 endif()
